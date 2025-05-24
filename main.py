@@ -1,7 +1,10 @@
 import pygame
 
 pygame.init()
-screen = pygame.display.set_mode((800, 400))
+info = pygame.display.Info()
+WIDTH, HEIGHT = info.current_w, info.current_h
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+
 
 while True:
     for event in pygame.event.get():
