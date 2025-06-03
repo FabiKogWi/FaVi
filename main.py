@@ -17,16 +17,18 @@ options = buttons.TextButton(screen.get_width() // 2 - 100, screen.get_height() 
 resume = buttons.TextButton(screen.get_width() // 2 - 100, screen.get_height() // 2 - 75, 200, 50, "Resume")
 help = buttons.TextButton(screen.get_width() // 2 - 100, screen.get_height() // 2 + 25, 200, 50, "Help")
 leave = buttons.TextButton(screen.get_width() // 2 - 100, screen.get_height() // 2 + 75, 200, 50, "Leave")
+buttons = pygame.sprite.Group(options, resume, help, leave)
+
+# Player
 
 
 while True:
 
     if menu:
         screen.fill("Dark Green")
-        options.draw(screen)
-        resume.draw(screen)
-        help.draw(screen)
-        leave.draw(screen)
+        buttons.update()
+        buttons.draw(screen)
+        pygame.display.flip()
     if play:
         screen.fill("Green")
 
