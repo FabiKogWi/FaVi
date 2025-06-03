@@ -20,6 +20,21 @@ leave = buttons.TextButton(screen.get_width() // 2 - 100, screen.get_height() //
 buttons = pygame.sprite.Group(options, resume, help, leave)
 
 # Player
+player_surf = pygame.Surface((50, 50))
+player_surf.fill("Red")
+player_rect = player_surf.get_rect(center = (screen.get_width() // 2, screen.get_height() // 2))
+
+# Map Surface
+map_surf = pygame.Surface((1200, 600))
+map_surf.fill("Green")
+corners = pygame.Surface((100, 100))
+corners.fill("Brown")
+map_surf.blit(corners, (0, 0))
+map_surf.blit(corners, (1100, 0))
+map_surf.blit(corners, (1100, 500))
+map_surf.blit(corners, (0, 500))
+map_rect = map_surf.get_rect(topleft = (0, 0))
+
 
 
 while True:
@@ -31,6 +46,11 @@ while True:
         pygame.display.flip()
     if play:
         screen.fill("Green")
+        # Draw scrolling background
+        screen.blit(map_surf, map_rect)
+        screen.blit(player_surf, player_rect)
+
+
 
     for event in pygame.event.get():
         key_pressed = False # A bit of a weird solution
