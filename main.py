@@ -35,7 +35,8 @@ map_surf.blit(corners, (1100, 500))
 map_surf.blit(corners, (0, 500))
 map_rect = map_surf.get_rect(topleft = (0, 0))
 tiles = int(screen.get_width() // map_surf.get_width()) + 1
-scroll = 0
+scroll_x = 0
+scroll_y = 0
 print(f'{tiles}')
 
 
@@ -53,15 +54,6 @@ while True:
         # screen.blit(map_surf, map_rect)
         screen.blit(player_surf, player_rect)
 
-    # for i in range(0, tiles):
-    #     screen.blit(map_surf, (i * map_surf.get_width() + scroll, 0))
-    # scroll -= 5
-
-    # if abs(scroll) > map_surf.get_width():
-    #     scroll = 0
-
-
-
     for event in pygame.event.get():
 
         # Controls
@@ -74,18 +66,6 @@ while True:
                     menu = True
                     play = False
                     key_pressed = True
-                # Map Navigation
-                if event.key == pygame.K_d:
-                    for i in range(0, tiles):
-                        screen.blit(map_surf, (i * map_surf.get_width() + scroll, 0))
-                    scroll -= 10
-                if event.key == pygame.K_a:
-                    for i in range(0, tiles):
-                        screen.blit(map_surf, (i * map_surf.get_width() + scroll, 0))
-                    scroll += 10
-
-                if abs(scroll) > map_surf.get_width() or scroll :
-                        scroll = 0
             
         elif menu and not key_pressed:
             if event.type == pygame.KEYDOWN:
@@ -113,5 +93,32 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+    
+    # Controls
+    # Navigation
+    if play:
+        screen.fill("Green") # Clears screen
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_d]:
+            scroll_x += 10
+        if keys[pygame.K_a]:
+            scroll_x -= 10
+        if keys[pygame.K_w]:
+            scroll_y -= 10
+        if keys[pygame.K_s]:
+            scroll_y += 10
+
+        for i in range(-1, tiles):
+            for j in range(-1, tiles):
+                screen.blit(map_surf, (i * map_surf.get_width() - scroll_x, j * map_surf.get_width() - scroll_y))
+
+        if abs(scroll_x) > map_surf.get_width():
+            scroll_x = 0
+        if abs(scroll_y) > map_surf.get_height():
+            scroll_y = 0
+
+        screen.blit(player_surf, player_rect)
+
     pygame.display.update()
     clock.tick(60)
