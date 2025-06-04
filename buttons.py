@@ -35,8 +35,6 @@ class TextButton(pygame.sprite.Sprite):
         self.image.fill(current_color)
 
         text_surf = self.font.render(self.text, True, self.text_color)
-        print(f'{self.rect.center}')
-        print(f'{self.rect.width}, {self.rect.height}')
         text_rect = text_surf.get_rect(center=(self.rect.width // 2, self.rect.height // 2))
         self.image.blit(text_surf, text_rect)
 
