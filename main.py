@@ -27,7 +27,7 @@ map_surf = pygame.Surface((8000, 8000)) # Everything just gets drawn on this
 map_surf.fill("Light Green")
 
 # Enviroment
-player = player.Player((0, 0))
+player = player.Player((25, 25))
 
 player_group = pygame.sprite.GroupSingle(player)
 
@@ -59,7 +59,6 @@ while True:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 3:
                     player_group.sprite.move(event.pos)
-                    print("Nice")
             
         elif menu and not key_pressed:
             if event.type == pygame.KEYDOWN:

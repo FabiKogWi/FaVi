@@ -7,7 +7,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.Surface((50, 50))
         self.pos = pos
         self.image.fill("Red")
-        self.rect = self.image.get_rect(topleft = pos)
+        self.rect = self.image.get_rect(center = pos)
         self.target = self.pos
 
     def move(self, target):
@@ -22,7 +22,7 @@ class Player(pygame.sprite.Sprite):
             position_vector = pygame.math.Vector2(self.pos[0], self.pos[1])
             direction = target_vector - position_vector
 
-            if direction.length() < 5:
+            if direction.length() < 6:
                 self.pos = self.target
             else:
                 if direction.length() != 0:
@@ -31,4 +31,4 @@ class Player(pygame.sprite.Sprite):
                 new_pos = position_vector + direction * 5
                 self.pos = (math.ceil(new_pos.x), math.ceil(new_pos.y))
             
-        self.rect.topleft = self.pos
+        self.rect.center = self.pos
