@@ -26,13 +26,23 @@ map_surf = pygame.Surface((8000, 8000)) # Everything just gets drawn on this
 # And then this gets drawn on the map
 map_surf.fill("Light Green")
 
-# Enviroment
+# Player
 player = player.Player((25, 25))
 
 player_group = pygame.sprite.GroupSingle(player)
 
+# Enviroment
+envir_group = pygame.sprite.Group()
+
+for i in range(1, 5):
+    wall_surf = pygame.Surface((50, 100))
+    wall_surf.fill("Brown")
+    wall = enviroment.Enviroment((i * 2 * 50, 350), wall_surf)
+    envir_group.add(wall)
+
 
 while True:
+
     # Coding the menu
     if menu:
         screen.fill("Dark Green")
@@ -94,6 +104,7 @@ while True:
 
     if play:
         player_group.update()
+        envir_group.draw(map_surf)
         player_group.draw(map_surf)
 
     pygame.display.update()
