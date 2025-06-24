@@ -1,5 +1,7 @@
 import pygame
 import buttons
+import player
+import enviroment
 
 pygame.init()
 # info = pygame.display.Info()
@@ -19,43 +21,30 @@ help = buttons.TextButton(screen.get_width() // 2 - 100, screen.get_height() // 
 leave = buttons.TextButton(screen.get_width() // 2 - 100, screen.get_height() // 2 + 75, 200, 50, "Leave")
 buttons = pygame.sprite.Group(options, resume, help, leave)
 
-# Player
-player_surf = pygame.Surface((50, 50))
-player_surf.fill("Red")
-player_rect = player_surf.get_rect(center = (screen.get_width() // 2, screen.get_height() // 2))
-
 # Map Surface
-map_surf = pygame.Surface((600, 600))
-map_surf.fill("Green")
-corners = pygame.Surface((100, 100))
-corners.fill("Brown")
-map_surf.blit(corners, (0, 0))
-map_surf.blit(corners, (1100, 0))
-map_surf.blit(corners, (1100, 500))
-map_surf.blit(corners, (0, 500))
-map_rect = map_surf.get_rect(topleft = (0, 0))
-tiles = int(screen.get_width() // map_surf.get_width()) + 1
-scroll_x = 0
-scroll_y = 0
-print(f'{tiles}')
+map_surf = pygame.Surface((8000, 8000)) # Everything just gets drawn on this
+# And then this gets drawn on the map
+map_surf.fill("Light Green")
 
+# Enviroment
+player = player.Player((0, 0))
+
+player_group = pygame.sprite.GroupSingle(player)
 
 
 while True:
-
+    # Coding the menu
     if menu:
         screen.fill("Dark Green")
         buttons.update()
         buttons.draw(screen)
         pygame.display.flip()
+
     if play:
-        # screen.fill("Green")
-        # Draw scrolling background
-        # screen.blit(map_surf, map_rect)
-        screen.blit(player_surf, player_rect)
+        screen.blit(map_surf, (0, 0))
+        map_surf.fill("Light Green")
 
     for event in pygame.event.get():
-
         # Controls
         key_pressed = False # A bit of a weird solution
         if play and not key_pressed:
@@ -66,6 +55,11 @@ while True:
                     menu = True
                     play = False
                     key_pressed = True
+                
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 3:
+                    player_group.sprite.move(event.pos)
+                    print("Nice")
             
         elif menu and not key_pressed:
             if event.type == pygame.KEYDOWN:
@@ -96,29 +90,12 @@ while True:
     
     # Controls
     # Navigation
+    keys = pygame.key.get_pressed()
+    mouse = pygame.mouse.get_pressed()
+
     if play:
-        screen.fill("Green") # Clears screen
-        keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_d]:
-            scroll_x += 10
-        if keys[pygame.K_a]:
-            scroll_x -= 10
-        if keys[pygame.K_w]:
-            scroll_y -= 10
-        if keys[pygame.K_s]:
-            scroll_y += 10
-
-        for i in range(-1, tiles):
-            for j in range(-1, tiles):
-                screen.blit(map_surf, (i * map_surf.get_width() - scroll_x, j * map_surf.get_width() - scroll_y))
-
-        if abs(scroll_x) > map_surf.get_width():
-            scroll_x = 0
-        if abs(scroll_y) > map_surf.get_height():
-            scroll_y = 0
-
-        screen.blit(player_surf, player_rect)
+        player_group.update()
+        player_group.draw(map_surf)
 
     pygame.display.update()
     clock.tick(60)
