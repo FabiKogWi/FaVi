@@ -104,8 +104,15 @@ while True:
 
     if play:
         player_group.update()
+        envir_group.update()
         envir_group.draw(map_surf)
         player_group.draw(map_surf)
+
+        # Collision Detection
+        for envir in envir_group.sprites():
+            if player.rect.colliderect(envir.rect):
+                player.move((player.pos[0], player.pos[1]))
+                print("Collision Detected")
 
     pygame.display.update()
     clock.tick(60)
