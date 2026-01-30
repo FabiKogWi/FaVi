@@ -10,13 +10,10 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center = pos)
         self.target = self.pos
 
-    def move(self, target):
+    def set_target(self, target):
         self.target = target
-    
-    def set_pos(self, pos):
-        self.pos = pos
 
-    def update(self):
+    def move(self):
         if self.target != self.pos:
             target_vector = pygame.math.Vector2(self.target[0], self.target[1])
             position_vector = pygame.math.Vector2(self.pos[0], self.pos[1])
@@ -32,3 +29,9 @@ class Player(pygame.sprite.Sprite):
                 self.pos = (math.ceil(new_pos.x), math.ceil(new_pos.y))
             
         self.rect.center = self.pos
+    
+    def set_pos(self, pos):
+        self.pos = pos
+
+    def update(self):
+        self.move()

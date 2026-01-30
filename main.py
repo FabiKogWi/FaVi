@@ -68,7 +68,7 @@ while True:
                 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 3:
-                    player_group.sprite.move(event.pos)
+                    player_group.sprite.set_target(event.pos)
             
         elif menu and not key_pressed:
             if event.type == pygame.KEYDOWN:
@@ -111,7 +111,7 @@ while True:
         # Collision Detection
         for envir in envir_group.sprites():
             if player.rect.colliderect(envir.rect):
-                player.move((player.pos[0], player.pos[1]))
+                player.set_target((player.pos[0], player.pos[1]))
                 print("Collision Detected")
 
     pygame.display.update()
