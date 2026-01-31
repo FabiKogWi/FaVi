@@ -26,13 +26,13 @@ map_surf = pygame.Surface((8000, 8000)) # Everything just gets drawn on this
 # And then this gets drawn on the map
 map_surf.fill("Light Green")
 
-# Player
-player = player.Player((25, 25))
-
-player_group = pygame.sprite.GroupSingle(player)
-
 # Enviroment
 envir_group = pygame.sprite.Group()
+
+# Player
+player = player.Player((25, 25), environment=envir_group)
+
+player_group = pygame.sprite.GroupSingle(player)
 
 for i in range(1, 5):
     wall_surf = pygame.Surface((50, 100))
@@ -107,12 +107,6 @@ while True:
         envir_group.update()
         envir_group.draw(map_surf)
         player_group.draw(map_surf)
-
-        # Collision Detection
-        for envir in envir_group.sprites():
-            if player.rect.colliderect(envir.rect):
-                player.set_target((player.pos[0], player.pos[1]))
-                print("Collision Detected")
 
     pygame.display.update()
     clock.tick(60)
