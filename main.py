@@ -34,6 +34,8 @@ player = player.Player((25, 25), environment=envir_group)
 
 player_group = pygame.sprite.GroupSingle(player)
 
+
+# Generating some enviroment for testing
 for i in range(1, 5):
     wall_surf = pygame.Surface((50, 100))
     wall_surf.fill("Brown")
@@ -43,16 +45,12 @@ for i in range(1, 5):
 
 while True:
 
-    # Coding the menu
+    # Menu logic
     if menu:
         screen.fill("Dark Green")
         buttons.update()
         buttons.draw(screen)
         pygame.display.flip()
-
-    if play:
-        screen.blit(map_surf, (0, 0))
-        map_surf.fill("Light Green")
 
     for event in pygame.event.get():
         # Controls
@@ -102,7 +100,10 @@ while True:
     keys = pygame.key.get_pressed()
     mouse = pygame.mouse.get_pressed()
 
+    # Update and draw
     if play:
+        screen.blit(map_surf, (0, 0))
+        map_surf.fill("Light Green")
         player_group.update()
         envir_group.update()
         envir_group.draw(map_surf)
